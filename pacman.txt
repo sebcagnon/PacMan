@@ -1,0 +1,14 @@
+game
+goal
+
+board
+tiles
+	osbtacle
+	nothing
+	objects
+
+
+characters	actions, position
+	player	life points, status?
+	monsters	strategy, status (eater or eatable)
+
