@@ -1,25 +1,9 @@
 """Implementation of a board for console games like pacman
 Author: Sebastien Cagnon
-Date: 2013-Feb-21
+Date: 2013-Feb
 """
+from tiles import Tile, Wall, Object
 
-class Tile:
-    """An empty tile"""
-    def __init__(self):
-        self.shape= "  "
-
-    def __str__(self):
-        return str(self.shape)
-    
-
-class Wall(Tile):
-    """A tile you can't go through"""
-    def __init__(self):
-        self.shape= '++'
-
-class Object(Tile):
-    def __init__(self):
-        self.shape= chr(64)*2
 
 class Board:
     def __init__(self, width=5, height=5, fromFile=None):
