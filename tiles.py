@@ -8,15 +8,21 @@ class Tile(object):
     """An empty tile"""
     def __init__(self):
         self.shape= "  "
+        self.free= True
 
     def __str__(self):
         return str(self.shape)
+
+    def isFree(self):
+        """Returns True if you can walk on it, False otherwise"""
+        return self.free
     
 
 class Wall(Tile):
     """A tile you can't go through"""
     def __init__(self):
         self.shape= '++'
+        self.free= False
 
 class Object(Tile):
     """An eatable object"""

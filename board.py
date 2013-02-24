@@ -62,6 +62,9 @@ class Board(object):
                     self.characters.append(char.getID())
                     newLine.append(char)
             self.map.append(newLine)
+        #TODO check all lines have same lenght
+        self.width= len(self.map[0])
+        self.height= len(self.map)
 
     def create(self, width, height):
         """Creates a new board with only walls, with dimensions width and height"""
@@ -71,13 +74,44 @@ class Board(object):
         for _ in range(height):
             self.map.append([w]+[t]*width+[w])
         self.map.append([w]*(width+2))
+        self.width= width
+        self.height= height
 
     def newID(self):
         """Creates an ID for characters"""
         return len(self.characters)
+
+    def availableDirections(self, ID):
+        """Returns a dictionnary {direction:newPos} for available directions of ID"""
+        i,j = self.getPosition(ID)
+        available= {}
+        checkSide= lambda x,y: (x in range(self.height)
+                                and y in range(self.width)
+                                and self.map[x][y].isFree())
+        if checkSide(i-1,j):
+            available['Up']= (i-1,j)
+        if checkSide(i+1,j):
+            available['Down']= (i+1,j)
+        if checkSide(i,j-1):
+            available['Left']= (i,j-1)
+        if checkSide(i,j+1):
+            available['Right']= (i,j+1)
+        return available
+
+    def getPosition(self, ID):
+        """Returns the current position of ID"""
+        for i,line in enumerate(self.map):
+            for j,obj in enumerate(line):
+                if isinstance(obj, character.Character) and obj.getID()==ID:
+                    return (i,j)
 
 if __name__=='__main__':
     tileList= [tiles.Tile(), tiles.Wall(), tiles.Object()]
     assert [str(tile) for tile in tileList]==['  ', '++', '@@']
     board= Board(width=2,height=2)
     assert str(board)=='++++++++\n++    ++\n++    ++\n++++++++'
+    board1= Board(fromFile='ressources/board1.brd')
+    print board1
+    assert board1.getPosition(0)== (8,10)
+    assert board1.availableDirections(0) == {'Down':(9,10), 'Left':(8,9),
+                                             'Right':(8,11)}
