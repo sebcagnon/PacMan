@@ -21,14 +21,29 @@ class Ghost(Character):
         super(Ghost, self).__init__(ID)
         self.shape= "AA"
         self.direction= ['Up', 'Down', 'Left', 'Right']
+        self.free= False
 
     def getDirection(self):
         random.shuffle(self.direction)
         return self.direction
 
+class Player(Character):
+    """A playable character (self.direction can be set)"""
+    def __init__(self, ID):
+        super(Player, self).__init__(ID)
+        self.shape= "MM"
+        self.direction= []
+        self.free= True
+
+    def setDirection(self, direction):
+        if not direction in ['Up', 'Down', 'Left', 'Right']:
+            return False
+        self.direction= [direction]
+
 
 shapes = {"CC":Character,
-          "AA":Ghost}
+          "AA":Ghost,
+          "MM":Player}
 
     
 if __name__=="__main__":
@@ -38,4 +53,4 @@ if __name__=="__main__":
     assert myGhost.getID() == 1
     assert len(myGhost.getDirection()) == 4
     assert set(['Up', 'Down', 'Left', 'Right'])==set(myGhost.getDirection())
-    print "tests passes"
+    print "tests passed"

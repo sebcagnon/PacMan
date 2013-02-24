@@ -122,6 +122,16 @@ class Board(object):
         self.map[i1][j1]= leaveBehind
         self.map[i2][j2]= temp
 
+    def moveAllCharacters(self):
+        """Move all the characters on the map"""
+        for i in range(len(self.characters)):
+            self.move(i)
+
+    def getPlayers(self):
+        """Returns the list of playable characters"""
+        return [obj for obj in self.characters
+                if isinstance(obj, character.Player)]
+
 if __name__=='__main__':
     tileList= [tiles.Tile(), tiles.Wall(), tiles.Object()]
     assert [str(tile) for tile in tileList]==['  ', '++', '@@']
@@ -132,3 +142,6 @@ if __name__=='__main__':
     assert board1.getPosition(0)== (8,10)
     assert board1.availableDirections((8,10)) == {'Down':(9,10), 'Left':(8,9),
                                              'Right':(8,11)}
+    assert len(board1.getPlayers()) == 1
+    assert board1.getPlayers()[0].getID() == 3
+    print "Tests passed"
