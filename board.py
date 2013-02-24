@@ -3,11 +3,13 @@ Author: Sebastien Cagnon
 Date: 2013-Feb
 """
 import tiles
+import characters
 
 
-class Board:
+class Board(object):
     def __init__(self, width=5, height=5, fromFile=None):
         """Creates empty 5x5 board by default. If fromFile is defined then load from file"""
+        self.characters= []
         if fromFile:
             self.load(fromFile)
         else:
@@ -49,10 +51,15 @@ class Board:
         """Loads a board from a .brd file"""
         f= open(filePath, 'r')
         self.map= []
-        for line in f.readlines():
-            print line
-            self.map.append([
-                tiles.shapes[line[i:i+2]] for i in range(0, len(line)-2, 2)])
+        for n, line in enumerate(f.readlines()):
+            for i in range(0, len(line)-2, 2):
+                currentObject= line[i:i+2]
+                if currentObject in tiles.shapes.keys():
+                    self.map.append(tiles.shapes[currentObject])
+                elif shape in characters.shapes.keys():
+                    char= characters.shapes[currentObject](self.newID())
+                    self.characters.append(char.getID())
+                    self.map.append(char)
 
     def create(self, width, height):
         """Creates a new board with only walls, with dimensions width and height"""

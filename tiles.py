@@ -4,7 +4,7 @@ Date: 2013-Feb
 """
 
 
-class Tile:
+class Tile(object):
     """An empty tile"""
     def __init__(self):
         self.shape= "  "

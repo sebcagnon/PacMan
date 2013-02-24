@@ -3,7 +3,8 @@ import random
 
 class Character(tiles.Tile):
     """A character is a movable object"""
-    def __init__(self):
+    def __init__(self, ID):
+        self.id= ID
         self.shape= "CC"
         self.direction= []
 
@@ -11,9 +12,13 @@ class Character(tiles.Tile):
         """Returns the direction in which the character is going, there can be several"""
         return self.direction
 
+    def getID(self):
+        return ID
+
 class Ghost(Character):
     """A very bad monster"""
-    def __init__(self):
+    def __init__(self, ID):
+        super(Ghost, self).__init__(ID)
         self.shape= "AA"
         self.direction= ['Up', 'Down', 'Left', 'Right']
 
@@ -22,7 +27,7 @@ class Ghost(Character):
         return self.direction
 
 
-characters = {"CC":Character(),
-              "AA":Ghost()}
+shapes = {"CC":Character,
+          "AA":Ghost}
 
     
