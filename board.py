@@ -2,13 +2,17 @@
 Author: Sebastien Cagnon
 Date: 2013-Feb
 """
-from tiles import Tile, Wall, Object
+from tiles import Tile, Wall, Object, Ghost
 
 
 class Board:
     def __init__(self, width=5, height=5, fromFile=None):
+        self.shapes= {str(Tile()):Tile(),
+                      str(Wall()):Wall(),
+                      str(Object()):Object(),
+                      str(Ghost()):Ghost()}
         if fromFile:
-            self.map= eval(open(fromFile, 'r').read())
+            self.load(fromFile)
         else:
             self.map= [[Wall()]*(width+2)]
             for _ in range(height):
@@ -45,6 +49,15 @@ class Board:
             return False
         open(filePath, 'w').write(str(self))
         return True
+
+    def load(self, filePath):
+        f= open(filePath, 'r')
+        self.map= []
+        for line in f.readlines():
+            print line
+            self.map.append([
+                self.shapes[line[i:i+2]] for i in range(0, len(line)-2, 2)])
+                
 
 
 if __name__=='__main__':
