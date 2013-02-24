@@ -1,4 +1,5 @@
 import board
+import tiles
 import Tkinter
 from Tkconstants import *
 
@@ -12,7 +13,7 @@ class App(object):
         self.b= board.Board(20,20)
         self.x= 10
         self.y= 10
-        self.b[self.x][self.y]= board.Object()
+        self.b[self.x][self.y]= tiles.Object()
 
     def keyPressed(self,event):
         if event.keysym == 'Escape':
@@ -49,10 +50,10 @@ class App(object):
         tk.after(40,self.task)
 
     def move(self, dx,dy):
-        self.b[self.x][self.y]= board.Tile()
+        self.b[self.x][self.y]= tiles.Tile()
         self.x+=dx
         self.y+=dy
-        self.b[self.x][self.y]= board.Object()
+        self.b[self.x][self.y]= tiles.Object()
         
 
 application= App()
