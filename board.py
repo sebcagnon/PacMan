@@ -59,7 +59,7 @@ class Board(object):
                     newLine.append(tiles.shapes[currentObject])
                 elif currentObject in character.shapes.keys():
                     char= character.shapes[currentObject](self.newID())
-                    self.characters.append(char.getID())
+                    self.characters.append(char)
                     newLine.append(char)
             self.map.append(newLine)
         #TODO check all lines have same lenght
@@ -81,9 +81,9 @@ class Board(object):
         """Creates an ID for characters"""
         return len(self.characters)
 
-    def availableDirections(self, ID):
+    def availableDirections(self, pos):
         """Returns a dictionnary {direction:newPos} for available directions of ID"""
-        i,j = self.getPosition(ID)
+        i,j = pos
         available= {}
         checkSide= lambda x,y: (x in range(self.height)
                                 and y in range(self.width)
@@ -105,6 +105,23 @@ class Board(object):
                 if isinstance(obj, character.Character) and obj.getID()==ID:
                     return (i,j)
 
+    def move(self, ID):
+        goal= self.characters[ID].getDirection()
+        pos= self.getPosition(ID)
+        available= self.availableDirections(pos)
+        for direction in goal:
+            if direction in available.keys():
+                self.__displace(pos, available[direction])
+                break
+
+    def __displace(self, start, end, leaveBehind= tiles.Tile()):
+        """move object at start to position end, leaves behind the leaveBehind tile"""
+        i1,j1= start
+        i2,j2= end
+        temp= self.map[i1][j1]
+        self.map[i1][j1]= leaveBehind
+        self.map[i2][j2]= temp
+
 if __name__=='__main__':
     tileList= [tiles.Tile(), tiles.Wall(), tiles.Object()]
     assert [str(tile) for tile in tileList]==['  ', '++', '@@']
@@ -113,5 +130,5 @@ if __name__=='__main__':
     board1= Board(fromFile='ressources/board1.brd')
     print board1
     assert board1.getPosition(0)== (8,10)
-    assert board1.availableDirections(0) == {'Down':(9,10), 'Left':(8,9),
+    assert board1.availableDirections((8,10)) == {'Down':(9,10), 'Left':(8,9),
                                              'Right':(8,11)}
