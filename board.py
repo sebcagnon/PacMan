@@ -3,7 +3,7 @@ Author: Sebastien Cagnon
 Date: 2013-Feb
 """
 import tiles
-import characters
+import character
 
 
 class Board(object):
@@ -52,14 +52,16 @@ class Board(object):
         f= open(filePath, 'r')
         self.map= []
         for n, line in enumerate(f.readlines()):
+            newLine= []
             for i in range(0, len(line)-2, 2):
                 currentObject= line[i:i+2]
                 if currentObject in tiles.shapes.keys():
-                    self.map.append(tiles.shapes[currentObject])
-                elif shape in characters.shapes.keys():
-                    char= characters.shapes[currentObject](self.newID())
+                    newLine.append(tiles.shapes[currentObject])
+                elif currentObject in character.shapes.keys():
+                    char= character.shapes[currentObject](self.newID())
                     self.characters.append(char.getID())
-                    self.map.append(char)
+                    newLine.append(char)
+            self.map.append(newLine)
 
     def create(self, width, height):
         """Creates a new board with only walls, with dimensions width and height"""
@@ -68,8 +70,11 @@ class Board(object):
         self.map= [[w]*(width+2)]
         for _ in range(height):
             self.map.append([w]+[t]*width+[w])
-        self.map.append([w]*(width+2))     
+        self.map.append([w]*(width+2))
 
+    def newID(self):
+        """Creates an ID for characters"""
+        return len(self.characters)
 
 if __name__=='__main__':
     tileList= [tiles.Tile(), tiles.Wall(), tiles.Object()]
