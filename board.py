@@ -2,22 +2,16 @@
 Author: Sebastien Cagnon
 Date: 2013-Feb
 """
-from tiles import Tile, Wall, Object, Ghost
+import tiles
 
 
 class Board:
     def __init__(self, width=5, height=5, fromFile=None):
-        self.shapes= {str(Tile()):Tile(),
-                      str(Wall()):Wall(),
-                      str(Object()):Object(),
-                      str(Ghost()):Ghost()}
+        """Creates empty 5x5 board by default. If fromFile is defined then load from file"""
         if fromFile:
             self.load(fromFile)
         else:
-            self.map= [[Wall()]*(width+2)]
-            for _ in range(height):
-                self.map.append([Wall()]+[Tile()]*width+[Wall()])
-            self.map.append([Wall()]*(width+2))
+            self.create(width, height)
 
     def __str__(self):
         return '\n'.join([''.join([str(tile) for tile in line])
@@ -30,6 +24,7 @@ class Board:
         return self.map[i]
 
     def save(self, filePath):
+        """Saves the current board to a file (usually .brd)"""
         count=0
         try:
             open(filePath, 'r')
@@ -51,17 +46,26 @@ class Board:
         return True
 
     def load(self, filePath):
+        """Loads a board from a .brd file"""
         f= open(filePath, 'r')
         self.map= []
         for line in f.readlines():
             print line
             self.map.append([
-                self.shapes[line[i:i+2]] for i in range(0, len(line)-2, 2)])
-                
+                tiles.shapes[line[i:i+2]] for i in range(0, len(line)-2, 2)])
+
+    def create(self, width, height):
+        """Creates a new board with only walls, with dimensions width and height"""
+        w= tiles.Wall()
+        t= tiles.Tile()
+        self.map= [[w]*(width+2)]
+        for _ in range(height):
+            self.map.append([w]+[t]*width+[w])
+        self.map.append([w]*(width+2))     
 
 
 if __name__=='__main__':
-    tiles= [Tile(), Wall(), Object()]
-    assert [str(tile) for tile in tiles]==['  ', '++', '@@']
+    tileList= [tiles.Tile(), tiles.Wall(), tiles.Object()]
+    assert [str(tile) for tile in tileList]==['  ', '++', '@@']
     board= Board(width=2,height=2)
     assert str(board)=='++++++++\n++    ++\n++    ++\n++++++++'
