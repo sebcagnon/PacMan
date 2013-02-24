@@ -10,50 +10,26 @@ class App(object):
         self.left = False
         self.up = False
         self.down = False
-        self.b= board.Board(20,20)
-        self.x= 10
-        self.y= 10
-        self.b[self.x][self.y]= tiles.Object()
+        self.b= board.Board(fromFile='ressources/board1.brd')
+        self.player= self.b.getPlayers()[0]
+        self.direction = False
 
     def keyPressed(self,event):
         if event.keysym == 'Escape':
             root.destroy()
-        elif event.keysym == 'Right':
-            self.right = True
-        elif event.keysym == 'Left':
-            self.left = True
-        elif event.keysym == 'Up':
-            self.up = True
-        elif event.keysym == 'Down':
-            self.down = True
+        elif event.keysym in ['Right', 'Left', 'Up', 'Down']:
+            self.direction = event.keysym
 
     def keyReleased(self,event):
-        if event.keysym == 'Right':
-            self.right = False
-        elif event.keysym == 'Left':
-            self.left = False
-        elif event.keysym == 'Up':
-            self.up = False
-        elif event.keysym == 'Down':
-            self.down = False
+        pass
 
     def task(self):
-        if self.right:
-            self.move(0,1)
-        elif self.left:
-            self.move(0,-1)
-        elif self.up:
-            self.move(-1,0)
-        elif self.down:
-            self.move(1,0)
+        if self.direction:
+            self.player.setDirection(self.direction)
+        self.b.moveAllCharacters()
         label.configure(text=str(self.b))
-        tk.after(40,self.task)
+        tk.after(80,self.task)
 
-    def move(self, dx,dy):
-        self.b[self.x][self.y]= tiles.Tile()
-        self.x+=dx
-        self.y+=dy
-        self.b[self.x][self.y]= tiles.Object()
         
 
 application= App()
@@ -70,7 +46,7 @@ button= Tkinter.Button(frame, text="Exit", command=tk.destroy)
 button.pack(side=BOTTOM)
 
 label.focus_set()
-tk.after(20, application.task)
+tk.after(40, application.task)
 tk.mainloop()
 
 print "exiting"
