@@ -1,6 +1,5 @@
 import board
 import Tkinter
-import Image
 from Tkconstants import *
 
 
