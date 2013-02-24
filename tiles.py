@@ -23,12 +23,6 @@ class Object(Tile):
     def __init__(self):
         self.shape= chr(64)*2
 
-class Ghost(Tile):
-    """A very bad monster"""
-    def __init__(self):
-        self.shape= "AA"
-
 shapes= {str(Tile()):Tile(),
          str(Wall()):Wall(),
-         str(Object()):Object(),
-         str(Ghost()):Ghost()}
+         str(Object()):Object()}
