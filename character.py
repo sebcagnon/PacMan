@@ -4,7 +4,7 @@ import random
 class Character(tiles.Tile):
     """A character is a movable object"""
     def __init__(self, ID):
-        self.id= ID
+        self._id= ID
         self.shape= "CC"
         self.direction= []
 
@@ -13,7 +13,7 @@ class Character(tiles.Tile):
         return self.direction
 
     def getID(self):
-        return ID
+        return self._id
 
 class Ghost(Character):
     """A very bad monster"""
@@ -31,3 +31,11 @@ shapes = {"CC":Character,
           "AA":Ghost}
 
     
+if __name__=="__main__":
+    """testing"""
+    myGhost= Ghost(1)
+    assert str(myGhost)=="AA"
+    assert myGhost._id == 1 and myGhost.getID() == 1
+    assert len(myGhost.chooseDirection()) == 4
+    assert set(['Up', 'Down', 'Left', 'Right'])==set(myGhost.chooseDirection())
+    print "tests passes"
