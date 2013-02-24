@@ -19,5 +19,11 @@ class Wall(Tile):
         self.shape= '++'
 
 class Object(Tile):
+    """An eatable object"""
     def __init__(self):
         self.shape= chr(64)*2
+
+class Ghost(Tile):
+    """A very bad monster"""
+    def __init__(self):
+        self.shape= "AA"
