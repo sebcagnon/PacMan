@@ -1,8 +1,10 @@
 import board
 import tiles
 import Tkinter
+import os
 from Tkconstants import *
 
+RESSOURCES_FOLDER = "../ressources"
 
 class App(object):
     def __init__(self):
@@ -10,7 +12,8 @@ class App(object):
         self.left = False
         self.up = False
         self.down = False
-        self.b= board.Board(fromFile='ressources/board1.brd')
+        self.b= board.Board(
+				  fromFile=os.path.join(RESSOURCES_FOLDER,'board1.brd'))
         self.player= self.b.getPlayers()[0]
         self.direction = False
 
