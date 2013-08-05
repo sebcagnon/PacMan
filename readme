@@ -1,3 +1,6 @@
-This my own little implementation of Pacman in Python.
+The goal of this project is to create a PacMan clone.
 
-This is my very first video game.
+The game is created in Python 2.7 using the PyGame library.
+
+For downloading PyGame, check their website:
+http://www.pygame.org/download.shtml
