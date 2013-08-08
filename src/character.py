@@ -3,9 +3,9 @@ import random
 
 class Character(tiles.Tile):
     """A character is a movable object"""
-    def __init__(self, ID):
+    def __init__(self, ID, color):
         self.__id= ID
-        self.shape= "CC"
+        self.shape= color
         self.direction= []
 
     def getDirection(self):
@@ -18,10 +18,10 @@ class Character(tiles.Tile):
 class Ghost(Character):
     """A very bad monster"""
     def __init__(self, ID):
-        super(Ghost, self).__init__(ID)
-        self.shape= "AA"
+        super(Ghost, self).__init__(ID, 'red')
         self.direction= ['Up', 'Down', 'Left', 'Right']
         self.free= False
+        self.char = "AA"
 
     def getDirection(self):
         random.shuffle(self.direction)
@@ -30,10 +30,10 @@ class Ghost(Character):
 class Player(Character):
     """A playable character (self.direction can be set)"""
     def __init__(self, ID):
-        super(Player, self).__init__(ID)
-        self.shape= "MM"
+        super(Player, self).__init__(ID, 'blue')
         self.direction= []
         self.free= True
+        self.char = "MM"
 
     def setDirection(self, direction):
         if not direction in ['Up', 'Down', 'Left', 'Right']:

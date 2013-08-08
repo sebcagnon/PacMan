@@ -6,6 +6,16 @@ from pygame.locals import *
 
 RESSOURCES_FOLDER = "../ressources"
 
+colors = { 'white': [255,255,255],
+           'red':   [255,  0,  0],
+           'green': [  0,255,  0],
+           'blue':  [  0,  0,255],
+           'black': [  0,  0,  0] }
+           
+FPS = 30
+WIDTH = 400
+HEIGHT = 400
+
 class App(object):
     def __init__(self):
         self.right = False
@@ -33,8 +43,7 @@ class App(object):
         label.configure(text=str(self.b))
         tk.after(80,self.task)
 
-        
-
+pygame.init()
 
 
 print "exiting"

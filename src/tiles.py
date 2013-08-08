@@ -6,12 +6,13 @@ Date: 2013-Feb
 
 class Tile(object):
     """An empty tile"""
-    def __init__(self):
-        self.shape= "  "
+    def __init__(self, color):
+        self.shape= color
         self.free= True
+        self.char = "  "
 
     def __str__(self):
-        return str(self.shape)
+        return str(self.char)
 
     def isFree(self):
         """Returns True if you can walk on it, False otherwise"""
@@ -21,14 +22,17 @@ class Tile(object):
 class Wall(Tile):
     """A tile you can't go through"""
     def __init__(self):
-        self.shape= '++'
+        self.shape= 'white'
         self.free= False
+        self.char = "++"
 
 class Object(Tile):
     """An eatable object"""
     def __init__(self):
-        self.shape= chr(64)*2
+        self.shape= 'green'
+        self.free = True
+        self.char = "OO"
 
-shapes= {str(Tile()):Tile(),
+shapes= {str(Tile('black')):Tile('black'),
          str(Wall()):Wall(),
          str(Object()):Object()}

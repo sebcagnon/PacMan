@@ -69,7 +69,7 @@ class Board(object):
     def create(self, width, height):
         """Creates a new board with only walls, with dimensions width and height"""
         w= tiles.Wall()
-        t= tiles.Tile()
+        t= tiles.Tile('black')
         self.map= [[w]*(width+2)]
         for _ in range(height):
             self.map.append([w]+[t]*width+[w])
@@ -114,7 +114,7 @@ class Board(object):
                 self.__displace(pos, available[direction])
                 break
 
-    def __displace(self, start, end, leaveBehind= tiles.Tile()):
+    def __displace(self, start, end, leaveBehind= tiles.Tile('black')):
         """move object at start to position end, leaves behind the leaveBehind tile"""
         i1,j1= start
         i2,j2= end
@@ -133,11 +133,11 @@ class Board(object):
                 if isinstance(obj, character.Player)]
 
 if __name__=='__main__':
-    tileList= [tiles.Tile(), tiles.Wall(), tiles.Object()]
-    assert [str(tile) for tile in tileList]==['  ', '++', '@@']
+    tileList= [tiles.Tile('black'), tiles.Wall(), tiles.Object()]
+    assert [str(tile) for tile in tileList]==['  ', '++', 'OO']
     board= Board(width=2,height=2)
     assert str(board)=='++++++++\n++    ++\n++    ++\n++++++++'
-    board1= Board(fromFile='ressources/board1.brd')
+    board1= Board(fromFile='../ressources/board1.brd')
     print board1
     assert board1.getPosition(0)== (8,10)
     assert board1.availableDirections((8,10)) == {'Down':(9,10), 'Left':(8,9),
